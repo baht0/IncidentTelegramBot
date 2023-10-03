@@ -154,19 +154,17 @@ namespace IncidentTelegramBot
             {
                 message.AppendLine($"<b>ID:</b> {data.ID}");
                 message.AppendLine($"<b>Проблема:</b> {data.Problem}");
+                return await ReplyMessage(message.ToString(), messageId);
             }
-            else
-            {
-                message.AppendLine($"<b>ID:</b> {data.ID}");
-                message.AppendLine($"<b>ЗУЭС:</b> {data.Zues}");
-                message.AppendLine($"<b>РУЭС:</b> {data.Rues}");
-                message.AppendLine($"<b>Адрес:</b> {data.Address}");
-                message.AppendLine($"<b>Дата начала:</b> {data.DataStart}");
-                message.AppendLine($"<b>Проблема:</b> {data.Problem}");
-                message.AppendLine($"<b>Всего услуг в простое:</b> {data.UslugiAll}");
-                message.AppendLine($"<b>IP:</b> {data.IP}");
-            }
-            return await ReplyMessage(message.ToString(), messageId);
+            message.AppendLine($"<b>ID:</b> {data.ID}");
+            message.AppendLine($"<b>ЗУЭС:</b> {data.Zues}");
+            message.AppendLine($"<b>РУЭС:</b> {data.Rues}");
+            message.AppendLine($"<b>Адрес:</b> {data.Address}");
+            message.AppendLine($"<b>Дата начала:</b> {data.DataStart}");
+            message.AppendLine($"<b>Проблема:</b> {data.Problem}");
+            message.AppendLine($"<b>Всего услуг в простое:</b> {data.UslugiAll}");
+            message.AppendLine($"<b>IP:</b> {data.IP}");
+            return await SendMessage(message.ToString());
         }
         private async Task CheckedIncident(Data data, int? messageId)
         {
@@ -177,20 +175,18 @@ namespace IncidentTelegramBot
                 message.AppendLine($"<b>ID:</b> {data.ID}");
                 message.AppendLine($"<b>Дата конца:</b> {data.DataEnd}");
                 message.AppendLine($"<b>Проблема:</b> {data.Problem}");
+                await ReplyMessage(message.ToString(), messageId);
             }
-            else
-            {
-                message.AppendLine($"<b>ID:</b> {data.ID}");
-                message.AppendLine($"<b>ЗУЭС:</b> {data.Zues}");
-                message.AppendLine($"<b>РУЭС:</b> {data.Rues}");
-                message.AppendLine($"<b>Адрес:</b> {data.Address}");
-                message.AppendLine($"<b>Дата начала:</b> {data.DataStart}");
-                message.AppendLine($"<b>Дата конца:</b> {data.DataEnd}");
-                message.AppendLine($"<b>Проблема:</b> {data.Problem}");
-                message.AppendLine($"<b>Всего услуг в простое:</b> {data.UslugiAll}");
-                message.AppendLine($"<b>IP:</b> {data.IP}");
-            }
-            await ReplyMessage(message.ToString(), messageId);
+            message.AppendLine($"<b>ID:</b> {data.ID}");
+            message.AppendLine($"<b>ЗУЭС:</b> {data.Zues}");
+            message.AppendLine($"<b>РУЭС:</b> {data.Rues}");
+            message.AppendLine($"<b>Адрес:</b> {data.Address}");
+            message.AppendLine($"<b>Дата начала:</b> {data.DataStart}");
+            message.AppendLine($"<b>Дата конца:</b> {data.DataEnd}");
+            message.AppendLine($"<b>Проблема:</b> {data.Problem}");
+            message.AppendLine($"<b>Всего услуг в простое:</b> {data.UslugiAll}");
+            message.AppendLine($"<b>IP:</b> {data.IP}");
+            await SendMessage(message.ToString());
         }
 
         //Telegram API
@@ -235,10 +231,10 @@ namespace IncidentTelegramBot
         //Exception logs
         private void ErrorLog(Exception exp, string method)
         {
-            string path = AppDomain.CurrentDomain.BaseDirectory + method + "_exp.txt";
+            string path = AppDomain.CurrentDomain.BaseDirectory + "incidentTelegramBot_exp.txt";
             string str = exp.Message + "\n" + exp.StackTrace;
             if (!File.Exists(path))
-                File.WriteAllText(path, $"[{DateTime.Now}]\n{str}\n");
+                File.WriteAllText(path, $"[{DateTime.Now}] | {method} |\n{str}\n");
             else
                 File.WriteAllText(path, string.Format("{0}{1}", $"[{DateTime.Now}]\n{str}\n", File.ReadAllText(path)));
         }
